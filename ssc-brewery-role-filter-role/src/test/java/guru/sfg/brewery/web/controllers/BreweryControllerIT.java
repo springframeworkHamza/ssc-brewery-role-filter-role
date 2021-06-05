@@ -1,6 +1,5 @@
-package guru.sfg.brewery.web.controllers.api;
+package guru.sfg.brewery.web.controllers;
 
-import guru.sfg.brewery.web.controllers.BaseIT;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -8,16 +7,13 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/**
- * Created by jt on 6/13/20.
- */
 @SpringBootTest
 class BreweryControllerIT extends BaseIT {
 
     @Test
     void listBreweriesCUSTOMER() throws Exception {
         mockMvc.perform(get("/brewery/breweries")
-                .with(httpBasic("scott", "tiger")))
+               .with(httpBasic("scott", "tiger")))
                 .andExpect(status().is2xxSuccessful());
     }
 
@@ -52,19 +48,21 @@ class BreweryControllerIT extends BaseIT {
     void getBreweriesJsonADMIN() throws Exception {
         mockMvc.perform(get("/brewery/api/v1/breweries")
                 .with(httpBasic("spring", "guru")))
-                .andExpect(status().isForbidden());
+                .andExpect(status().is2xxSuccessful());
     }
 
     @Test
     void getBreweriesJsonUSER() throws Exception {
         mockMvc.perform(get("/brewery/api/v1/breweries")
                 .with(httpBasic("user", "password")))
-                .andExpect(status().isForbidden());
+                .andExpect(status().is2xxSuccessful());
     }
 
     @Test
     void getBreweriesJsonNOAUTH() throws Exception {
         mockMvc.perform(get("/brewery/api/v1/breweries"))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().is2xxSuccessful());
     }
+
+
 }

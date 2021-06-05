@@ -19,7 +19,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-                http
+        http
                 .authorizeRequests(authorize -> {
                     authorize
                             .antMatchers("/h2-console/**").permitAll() //do not use in production!
@@ -27,7 +27,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                             .antMatchers("/beers/find", "/beers*").permitAll()
                             .antMatchers(HttpMethod.GET, "/api/v1/beer/**").permitAll()
                             .mvcMatchers(HttpMethod.DELETE, "/api/v1/beer/**").hasRole("ADMIN")
-                            .mvcMatchers(HttpMethod.GET, "/api/v1/beerUpc/{upc}").permitAll();
+                            .mvcMatchers(HttpMethod.GET, "/api/v1/beerUpc/{upc}").permitAll()
+                            .mvcMatchers("/brewery/breweries").hasRole("CUSTOMER")
+                            .mvcMatchers(HttpMethod.GET, "/brewery/api/v1/breweries").hasRole("CUSTOMER");
                 } )
                 .authorizeRequests()
                 .anyRequest().authenticated()
@@ -36,8 +38,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .and().csrf().disable();
 
-                //h2 console config
-                http.headers().frameOptions().sameOrigin();
+        //h2 console config
+        http.headers().frameOptions().sameOrigin();
     }
 
     @Bean
@@ -78,19 +80,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //
 //        return new InMemoryUserDetailsManager(admin, user);
 //    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
