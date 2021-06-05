@@ -17,26 +17,13 @@ import static org.springframework.security.test.web.servlet.setup.SecurityMockMv
 /**
  * Created by jt on 6/13/20.
  */
+
+
 public abstract class BaseIT {
     @Autowired
     WebApplicationContext wac;
 
     protected MockMvc mockMvc;
-
-    @MockBean
-    BeerRepository beerRepository;
-
-    @MockBean
-    BeerInventoryRepository beerInventoryRepository;
-
-    @MockBean
-    BreweryService breweryService;
-
-    @MockBean
-    CustomerRepository customerRepository;
-
-    @MockBean
-    BeerService beerService;
 
     @BeforeEach
     public void setup() {
